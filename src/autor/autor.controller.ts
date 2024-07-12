@@ -7,9 +7,9 @@ import { UpdateAutorDto } from './dto/update-autor.dto';
 export class AutorController {
   constructor(private readonly autorService: AutorService) {}
 
-  @Post()
-  create(@Body() createAutorDto: CreateAutorDto) {
-    return this.autorService.create(createAutorDto);
+  @Post("/crear")
+  crearAutor(@Body() createAutorDto: CreateAutorDto) {
+    return this.autorService.crear(createAutorDto);
   }
 
   @Get()
