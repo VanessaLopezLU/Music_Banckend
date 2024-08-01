@@ -6,15 +6,20 @@ import { PlaylistModule } from './playlist/playlist.module';
 import { CancionModule } from './cancion/cancion.module';
 import { GeneroModule } from './genero/genero.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { env, loadEnvFile } from 'process';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 
 @Module({
-  imports: [AutorModule, GeneroModule, CancionModule, PlaylistModule,
+  imports:[
+    ServeStaticModule.forRoot({
+      rootPath:join(__dirname,'..', 'templates'),
+      serveRoot:'/public/'
+    }),
     ConfigModule.forRoot({
+      isGlobal: true,
       envFilePath: ".env",
-      isGlobal: true
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -30,8 +35,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         connectTimeout: 40000,
         autoLoadEntities: true
       }),
-  
-    }),],
+      
+      inject: [ConfigService],
+    }),
+    AutorModule, GeneroModule, CancionModule, PlaylistModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

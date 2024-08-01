@@ -11,7 +11,7 @@ export class AutorService {
     @InjectRepository(Autor)
     private autorRepository: Repository<Autor>,
   ){}
-  async crear(createAutorDto: CreateAutorDto) {
+  async createAutor(createAutorDto: CreateAutorDto) {
      const autor =  this.autorRepository.create(createAutorDto);
         return  await this.autorRepository.save(autor);
   }
